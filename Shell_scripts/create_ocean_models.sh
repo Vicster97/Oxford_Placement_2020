@@ -8,21 +8,27 @@ RUNS_DIR=$WORKING_DIR/multiple_models
 echo "The working directory is $WORKING_DIR "
 
 ParameterSets=() # create an empty array
+NppSets=()
 
 while IFS= read -r line; do # reading file in row mode, insert each line into array
 	ParameterSets+=("$line") # append
 	
 done < parameter_sets.txt
 
+while IFS= read -r line; do
+	NppSets+=("$line")
+
+done < npp_values.txt
+ 
 N=$((${#ParameterSets[@]})) #calculates number of parameter sets in parameter_sets.txt 
 echo "We have $N parameter sets"
 
 i=0 # 'i' is for going through dataNumDepthLayers array
 
 echo "Writing the local parameters into the namelist..."
-for (( d=1; d<=$N; d++ )); do # 'd' is for going through the run directories
+for (( d=0; d<$N; d++ )); do # 'd' is for going through the run directories
 	mkdir -p $RUNS_DIR/model_${d} #create model directories
-	mkdir -p $RUNS_DIR/all_outputs/model_output_S{d} #create directories for model outputs 
+	mkdir -p $RUNS_DIR/all_outputs/model_output_${d} #create directories for model outputs 
 	
 	cp -a $WORKING_DIR/SLAMS2.0_modelfiles/. $RUNS_DIR/model_${d} 
 	RUN_ID=$RUNS_DIR/model_${d}
@@ -33,6 +39,12 @@ for (( d=1; d<=$N; d++ )); do # 'd' is for going through the run directories
 	Parameters=()
 	for j in ${ParameterSets[$i]}; do
 		Parameters+=("$j");
+	done
+	
+	NPPParams=()
+	for m in ${NppSets[$i]}; do
+		echo ("NPP parameter value is: $m")
+		NPPParams+=("$m");
 	done
 	
 	# update 14 parameters on namelist.input with new values:
@@ -68,6 +80,9 @@ for (( d=1; d<=$N; d++ )); do # 'd' is for going through the run directories
 	
 	sed_dissol_timescale_calc=s/dissol_timescale_calc=.*/dissol_timescale_calc=${Parameters[10]}/  
 	sed -i "$sed_dissol_timescale_calc" namelist.input
+	
+	#perform the scailing of binary files with a python script 
+	python scale_input_files.py ${NPPParams[0]} ${Parameters[11]} ${Parameters[12]}
 	
 	let i++
 done
