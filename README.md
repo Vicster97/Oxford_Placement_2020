@@ -49,19 +49,19 @@ This jupyter notebook also contains code which is used to introduce redundancy i
 	 - k) `xlims` and `xlabel` properties outputs, dpending if your dimenssions of the images changed in `out_shape` property
 	 - l) everything after `ylabel` property ca be deleted as it is not used for training
 3) **GO** to *Machine_Learning/Codes/deepemu2/deepemulator/models/rpnas/* folder and **CREATE** a new python file with name *rpnas_2d_slams2_**OutputFile**.py* . Copy over the contents of *rpnas_2d_slams2_outflux.py* and change the following:
-	a) `__all__ ` variable at the top, make it the same as the name of the file. **THIS IS GOING TO BE YOUR MODEL NAME**
-	b) `class` name, same as in a)
-	c) `self.nodes`, the last row has to have the output dimension as the same that you had in `out_shape` property in *deepemulator/diags/slams2_**OutputFile**.py* above. Also the nodes before the last one have to have smaller dimensions than your last node and increase from the first node to the last node. You can have repeats.
-	d) lastly scroll all the way to the bottom and change the value of `dn` variable to match the name of the file. E.g. *rpnas_2d_slams2_outflux()* to *rpnas_2d_slams2_**OutputFile**()*. **DO NOT FORGET A SET OF CURLY BRACKETS AT THE END SINCE dn CALLS A THE CLASS THAT YOU JUST DEFINED IN THIS FILE**
+	 - a) `__all__ ` variable at the top, make it the same as the name of the file. **THIS IS GOING TO BE YOUR MODEL NAME**
+	 - b) `class` name, same as in a)
+	 - c) `self.nodes`, the last row has to have the output dimension as the same that you had in `out_shape` property in *deepemulator/diags/slams2_**OutputFile**.py* above. Also the nodes before the last one have to have smaller dimensions than your last node and increase from the first node to the last node. You can have repeats.
+	 - d) lastly scroll all the way to the bottom and change the value of `dn` variable to match the name of the file. E.g. *rpnas_2d_slams2_outflux()* to *rpnas_2d_slams2_**OutputFile**()*. **DO NOT FORGET A SET OF CURLY BRACKETS AT THE END SINCE dn CALLS A THE CLASS THAT YOU JUST DEFINED IN THIS FILE**
 3) **GO** back put to *Machine_Learning/Codes/deepemu2/deepemulator/models/* and **ADD** the model you have just created into the *factory.py* file. Specifically you need to add the following lines:
-	a) `from deepemulator.models.rpnas.rpnas_2d_slams2_OUTPUTFILE import rpnas_2d_slams2_OUTPUTFILE` where capital letter are replaced by the name you gave your model
-	b) inside the `getmodel` function add an extra line: `"rpnas_2d_slams2_OUTPUTFILE" : rpnas_2d_slams2_OUTPUTFILE`, where capital letters are placeholders for your name
+	 - a) `from deepemulator.models.rpnas.rpnas_2d_slams2_OUTPUTFILE import rpnas_2d_slams2_OUTPUTFILE` where capital letter are replaced by the name you gave your model
+	 - b) inside the `getmodel` function add an extra line: `"rpnas_2d_slams2_OUTPUTFILE" : rpnas_2d_slams2_OUTPUTFILE`, where capital letters are placeholders for your name
 save and close 
 4) **NAVIGATE TO** *Machine_Learning/Codes/deepemu2/deepemulator/datasets/* and **CREATE** a folder for your data. E.g. we used out\_flux file in slams2.0, so the folder name for that data set is *slams2_outflux*, so use *slams2_OUTPUTFILE* format. Then **COPY OVER** your *params.bin* and *specs.bin* files to this folder.
 5) **TRAIN** the model by navigating to the *Machine_Learning/Codes/deepemu2/deepemulator/trains/* folder and editing the *command.sh* file:
-	a) 3rd item should be replaces by the `handle` property in your diag file in *Machine_Learning/Codes/deepemu2/deepemulator/diags/*. In our case this is *slams2_outflux*.
-	b) item after `--model` feature should read the name of your model as given in your model file in *Machine_Learning/Codes/deepemu2/deepemulator/models/rpnas/*. In our case it is *rpnas_2d_slams2_outflux*
-	c) the remaining feature are the initial parameters for ML algorithm training and can be changed as desired 
+	 - a) 3rd item should be replaces by the `handle` property in your diag file in *Machine_Learning/Codes/deepemu2/deepemulator/diags/*. In our case this is *slams2_outflux*.
+	 - b) item after `--model` feature should read the name of your model as given in your model file in *Machine_Learning/Codes/deepemu2/deepemulator/models/rpnas/*. In our case it is *rpnas_2d_slams2_outflux*
+	 - c) the remaining feature are the initial parameters for ML algorithm training and can be changed as desired 
 **SAVE and CLOSE**
 6) before we can train the deep emulator we need to compile all the models. **NAVIGATE** to the *Machine_Learning/Codes/deepemu2/deepemulator/trains/* and **COMPLETE** the steps outlined in *README.md* file's *Getting started* section. Then **RUN** command.sh from terminal for model training according to steps outlined in the *Training* section.
 
