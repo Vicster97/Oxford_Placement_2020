@@ -31,5 +31,5 @@ pic = calcite + aragonite
 
 all_flux = np.concatenate((poc_new.reshape(1,31,12), pic.reshape(1,31,12),opal.reshape(1,31,12)))
 
-np.savetxt('flux_'+ str(args.model_num),all_flux.reshape(1,3*31*12))
+np.savetxt('flux_'+ str(args.model_num) + '.txt',all_flux.reshape(1,3*31*12))
 
