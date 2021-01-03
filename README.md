@@ -32,22 +32,22 @@ b) files for output of evry model created at *ARC_run_files/multiple_models/all_
 This jupyter notebook also contains code which is used to introduce redundancy into data (replicating it several times, set by **nmult** variable ), the values of mean, standard deviation, maximum and minimum and saves the data in bin format for ML algorithm training. Please refer to the comments in that notebook for further help.
 
 **PHASE 2:**
-**Instructions of how to create a cast for training a deep emulator on your data:**
+ - **Instructions of how to create a cast for training a deep emulator on your data:**
 1) Once you have done the steps outlined above and have chosen a file (SLAMS2.0 output file or Y, in our case it is the combination of all *out\_flux.bin* files) that you want to use along with X, the file with sets of initial parameters for SLAMS2.0 (*parameter\_sets\_all.txt* which can be found in *Phase_1/Data_for_ML/* folder), you can begin building a wrapper for this data in order to integrate it into the deeep emulator model. You will need the **_params.bin_** and **_specs.bin_** that are produced by **Analysing_SLAMS2.0_output_files.ipynb** file (see PHASE 1 instructions). You will also need the information about the mean, standard deviation (std), maximum (max) and minimum (min) values of your data (e.g. the *merged\_flux\_stable.txt* data) which are also given in that notebook. 
 
 2) **CREATE** a new python file in *Machine_Learning/Codes/deepemu2/deepemulator/diags/* folder and name it *slams2_**OutputFile**.py*. E.g. as we used out\_flux output file from SLAMS2.0, we named our file *slams2_outflux.py*. You can copy the general structure of slams2_outflux.py* into YOUR file and change the following:
-	a) `class` name: replace *SLAMS2OutFluxDiagnostic* by YOUR name, e.g. *SLAMS2**XXXXX**Diagnostic** where XXXXX is the OutputFile from slams2.0
-	b) `self.means` values by the mean values you have identified in **Analysing_SLAMS2.0_output_files.ipynb** 
-	c) `self.stds` values by the mean values you have identified in **Analysing_SLAMS2.0_output_files.ipynb** 
-	d) `self.nmult` value by the nmult value you used in **Analysing_SLAMS2.0_output_files.ipynb** + 1 (e.g. we used 3 in **Analysing_SLAMS2.0_output_files.ipynb**, so we need to use 4 here)
-	e) `self.orig_shape` and `self.data_shape` by the shape of the output file you used, we used out\_flux.bin which had shape of 3,31,12 (**NOTE this is NOT the shape of the collection of merged out\_flux files, cause each 'row' in merged\_flux.txt is considered as a separate image**)
-	f) the returns of the `handle` property 
-	g) in `data_range` property we need to adjust the number we multiply by n in d = { "largest"}, we used nmult=4 so our total number of rows is 1286*4 = 5144, we want to use 50\% of that for training, so 0.5\*5144 = 2572, and 2572/4 = 643. and we want to use the bigger portion of the rest for testing and smallest for validation. in our example we use 25\% of 5144 (or 1286) for validation and the remaining 25\% for testing, so 2572+1286 = 3858 and 3858/4 = 964.5. do similar calculation based on total number of data rows in your dataset and replace 643 and 964.5 values by your values.
-	h) `out_channel` property output by the number of 2d images you want ML algorithm to predict. In our example we have 3 physical quantities (PIC,POC and Opal) in out\_flux n=and so 3 images of data = 3 out channels
-	i) `out_shape` property output, which is the dimenssions of your output images, which is in out case is 31 by 12, for 31 depths and 12 months
-	j) `name` property output, change the string 
-	k) `xlims` and `xlabel` properties outputs, dpending if your dimenssions of the images changed in `out_shape` property
-	l) everything after `ylabel` property ca be deleted as it is not used for training
+	 - a) `class` name: replace *SLAMS2OutFluxDiagnostic* by YOUR name, e.g. *SLAMS2**XXXXX**Diagnostic** where XXXXX is the OutputFile from slams2.0
+	 - b) `self.means` values by the mean values you have identified in **Analysing_SLAMS2.0_output_files.ipynb** 
+	 - c) `self.stds` values by the mean values you have identified in **Analysing_SLAMS2.0_output_files.ipynb** 
+	 - d) `self.nmult` value by the nmult value you used in **Analysing_SLAMS2.0_output_files.ipynb** + 1 (e.g. we used 3 in **Analysing_SLAMS2.0_output_files.ipynb**, so we need to use 4 here)
+	 - e) `self.orig_shape` and `self.data_shape` by the shape of the output file you used, we used out\_flux.bin which had shape of 3,31,12 (**NOTE this is NOT the shape of the collection of merged out\_flux files, cause each 'row' in merged\_flux.txt is considered as a separate image**)
+	 - f) the returns of the `handle` property 
+	 - g) in `data_range` property we need to adjust the number we multiply by n in d = { "largest"}, we used nmult=4 so our total number of rows is 1286*4 = 5144, we want to use 50\% of that for training, so 0.5\*5144 = 2572, and 2572/4 = 643. and we want to use the bigger portion of the rest for testing and smallest for validation. in our example we use 25\% of 5144 (or 1286) for validation and the remaining 25\% for testing, so 2572+1286 = 3858 and 3858/4 = 964.5. do similar calculation based on total number of data rows in your dataset and replace 643 and 964.5 values by your values.
+	 - h) `out_channel` property output by the number of 2d images you want ML algorithm to predict. In our example we have 3 physical quantities (PIC,POC and Opal) in out\_flux n=and so 3 images of data = 3 out channels
+	 - i) `out_shape` property output, which is the dimenssions of your output images, which is in out case is 31 by 12, for 31 depths and 12 months
+	 - j) `name` property output, change the string 
+	 - k) `xlims` and `xlabel` properties outputs, dpending if your dimenssions of the images changed in `out_shape` property
+	 - l) everything after `ylabel` property ca be deleted as it is not used for training
 3) **GO** to *Machine_Learning/Codes/deepemu2/deepemulator/models/rpnas/* folder and **CREATE** a new python file with name *rpnas_2d_slams2_**OutputFile**.py* . Copy over the contents of *rpnas_2d_slams2_outflux.py* and change the following:
 	a) `__all__ ` variable at the top, make it the same as the name of the file. **THIS IS GOING TO BE YOUR MODEL NAME**
 	b) `class` name, same as in a)
