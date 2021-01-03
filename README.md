@@ -67,6 +67,14 @@ save and close
 
 **NOTE:** every python file created in deepemulator is accompanied by a pyc file with a similar name, which are created automatically after a model (command.sh) is run. There is no need to create pyc files, only the py files need to be created.
 
+**OUTPUT:** At the end of the deepemulator training the wrapper produces a folder with the trained model outputs. **NAVIGATE** to *Machine_Learning/Codes/deepemu2/results/*. The most recent training would be the most recently produced folder named *XXXXXX-spv-slams2-rpnas_2d_slams2*, where XXXXXX is the id of the training (every time *command.sh* is executed and is finished properly it is assigned trainign id that goes into the file name). 
+
+**USING TRAINED MODEL FOR PREDICTIONS:**
+a) **NAVIGATE** to the last created folder in *Machine_Learning/Codes/deepemu2/results/* and **MOVE** the whole folder to  *Machine_Learning/Codes/Analysing_outputs/* . 
+
+**PHASE 2:** ii) **Trainign other ML models:** 
+
+
 
 
 
