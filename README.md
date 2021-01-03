@@ -32,7 +32,7 @@ b) files for output of evry model created at *ARC_run_files/multiple_models/all_
 This jupyter notebook also contains code which is used to introduce redundancy into data (replicating it several times, set by **nmult** variable ), the values of mean, standard deviation, maximum and minimum and saves the data in bin format for ML algorithm training. Please refer to the comments in that notebook for further help.
 
 **PHASE 2:**
-i) **Instructions on how to create a wrapper for training a deep emulator on your data:**
+	i) **Instructions on how to create a wrapper for training a deep emulator on your data:**
 1) Once you have done the steps outlined above and have chosen a file (SLAMS2.0 output file or Y, in our case it is the combination of all *out\_flux.bin* files) that you want to use along with X, the file with sets of initial parameters for SLAMS2.0 (*parameter\_sets\_all.txt* which can be found in *Phase_1/Data_for_ML/* folder), you can begin building a wrapper for this data in order to integrate it into the deeep emulator model. You will need the **_params.bin_** and **_specs.bin_** that are produced by **Analysing_SLAMS2.0_output_files.ipynb** file (see PHASE 1 instructions). You will also need the information about the mean, standard deviation (std), maximum (max) and minimum (min) values of your data (e.g. the *merged\_flux\_stable.txt* data) which are also given in that notebook. 
 
 2) **CREATE** a new python file in *Machine_Learning/Codes/deepemu2/deepemulator/diags/* folder and name it *slams2_**OutputFile**.py*. E.g. as we used out\_flux output file from SLAMS2.0, we named our file *slams2_outflux.py*. You can copy the general structure of slams2_outflux.py* into YOUR file and change the following:
