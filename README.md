@@ -6,6 +6,11 @@ This folder cointains the code produced as part of the summer 2020 Data Science 
 After trying several algorithms for predictions of out_flux, we found the Extra Trees Regressor model to be the most successful at understanding the relationship between the input parameters and out_flux outputs (as this model produced the lelast huber-loss, criteria that we chose to evaluate model predictions). We used the outputs of Extra Trees Regressor (ETR) model, i.e. predicted out_flux, to test the sensitivity of SLAMS 2.0 to the chosen 14 input parameters.
 We found that our ML predictions replicate the overall pattern of the out_flux data well, however the individual values of physical quantities covered by out_flux (e.g. PIC, POC and Opal quantities) wary greatly from their expected values. We also found that POC and Opal predicted profiles were the most successfully replicated by our algorithm, reinforcing the anticipated uncertain nature of the PIC signal.
 
+This project had 3 phases:
+1) Creating a collection of data from running the SLAMS2.0 model N number of times with N set of initial parameters. The outputs of the model produced 18 files with data, we picked 1 in this project to use for a proof of concept.
+2) Writing additional model files for the deep emulator and other ML models to enable those algorithms to learn our dataset. This includes: *put includded file names here* 
+3) Training the models and evaluating which models performed best at learning the statistically significant signal that i spresented in out data set (i.e. the connection between the set of 14-input paraneters and the SLAMS2.0 output files). 
+
 
 **File Description:**
 1) *create_ocean_models.sh* - creates 1286 unique ocean models (versions of SLAMS 2.0 ) with the 1286 LHS-led 14-paramter sets (the parameter sets can be found in *parameter_sets_main.txt* and *scailing_factors_for_bin.txt*, where the first file has the first 10 parameters from the *selection_params_sensitivity.xlsx* and the last file cointains the other 4). This script runs a *scale_input_files.py* which has to be **INCLUDED INTO THE** *SLAMS2.0_modelfiles* folder as the last 4 parameter inputs are not individual values but arrays of values (profiles) that have to be scaled against a chosen value (e.g. temperature profile). 
