@@ -71,8 +71,14 @@ save and close
 
 **USING TRAINED MODEL FOR PREDICTIONS:**
 a) **NAVIGATE** to the last created folder in *Machine_Learning/Codes/deepemu2/results/* and **MOVE** the whole folder to  *Machine_Learning/Codes/Analysing_outputs/* . 
+*to be continued soon...*
 
 **PHASE 2:** ii) **Trainign other ML models:** 
+*coming soon....*
+
+**PHASE 3:**
+**Using the trained ML to predict SLAMS2.0 output**
+Please go to Phase 3 folder where you can find the code for implementing this phase and relevant comments in the **Analysing_out_flux.ipynb** notebook. 
 
 
 
